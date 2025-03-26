@@ -112,6 +112,17 @@ by adding the found char to the input :
 - `??Gxxxxxxxxxxxxxx`
 - `???Gxxxxxxxxxxxxx`
 - etc.
+```
+|OCC3 students%  |
+|??xxxxxxxxxxxxxx|
+|PPPPPPPPPPPPPP, |
+|here is your sec|
+|ret flag for tod|
+|ay exam: FLAGFLA|
+|GFLAGFLAGFLAGFLA|
+|Gxxxxxxxxxxxxxxx|
+```
+
 
 [exploit.py](./exploit.py)
 
