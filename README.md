@@ -115,12 +115,12 @@ by adding the found char to the input :
 ```
 |OCC3 students%  |
 |??xxxxxxxxxxxxxx|
-|PPPPPPPPPPPPPP, |
-|here is your sec|
-|ret flag for tod|
-|ay exam: FLAGFLA|
-|GFLAGFLAGFLAGFLA|
-|Gxxxxxxxxxxxxxxx|
+|PPPPPPPPPPPPPPP,|
+| here is your se|
+|cret flag for to|
+|day exam: FLAGFL|
+|AGFLAGFLAGFLAGFL|
+|AGxxxxxxxxxxxxxx|
 ```
 
 
