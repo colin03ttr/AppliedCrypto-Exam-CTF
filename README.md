@@ -25,8 +25,7 @@ The code splits the differents lines of the input and takes only the first line 
 OCC3 students
 ```
 ```
-OCC3 students
-fkgbsldfg
+OCC3 students\nfkgbsldfg
 ```
 
 **3. How many blocks are there in the ciphertext?**
@@ -56,14 +55,64 @@ We know the plaintext message is made of the `username` then a **known text** an
 ```python
 message = f"{username}, here is your secret flag for today exam: {FLAG}"
 ```
-The valid username is `OCC3 students`, and we don't know the flag yet so it should look like this (each line is a block):
+The valid username is `OCC3 students`, and the code pads even if the message length is a multiple of 16:
+```python
+message = f"{username}, here is your secret flag for today exam: {FLAG}"
+pad = 16 - (len(message) % 16)
+plaintext = message + (chr(pad)*pad)
+```
+So it should look like this (each line is a block):
 
 ```
 |OCC3 students, h| 
 |ere is your secr|
 |et flag for toda|  
 |y exam: FLAGFLAG|    
-|FLAGFLAGFLAGFLAG|
+|FLAGFLAGFLAGFLAG|    
+|xxxxxxxxxxxxxxxx|
 ```
-The flag is 24 bytes long so it doesnt need padding as you see above.
+
+**5. Give an input for username so that, the second block is of the form "?xxxxxxxxxxxxxxx" where x = 0xff as the padding, and the last block is of the form "Gxxxxxxxxxxxxxxx" where G is the last character of the flag, and x = 0xff as the padding.**
+
+We want to make the vizualization look like this : (% being a "\n")
+```
+|OCC3 students%  |
+|?xxxxxxxxxxxxxxx|
+|PPPPPPPPPPPPPP, |
+|here is your sec|
+|ret flag for tod|
+|ay exam: FLAGFLA|
+|GFLAGFLAGFLAGFLA|
+|Gxxxxxxxxxxxxxxx|
+```
+So we enter :
+```
+OCC3 students\n?xxxxxxxxxxxxxxxPPPPPPPPPPPPPP
+```
+output :
+```
+d7b06ccd0ac75bbfaf1a9b8559649a0efee9760f49088a1ad5030e4250ac8e46dbcffadf505c57c07383dcb6b9acbfb67c69995974a9eac647e60defb0004de63e651e8c0a4f9673db799cad8fb0ca106c6d705f825de48124fe6a5b93e031de71984093eb9746aa2f25bcac6b919bb7a367722b51252527e1e1f38cc7fd08de
+```
+
+**6. propose an idea to recover the last character of the flag**
+
+We see from the visualization at question 5 that we have 2 similar blocks :
+```
+|?xxxxxxxxxxxxxxx|
+|Gxxxxxxxxxxxxxxx|
+```
+One with a random char at the start and one with the last character of the flag.
+
+From this, we can bruteforce by testing every possibility of char in the input `?xxxxxxxxxxxxxxx` and compare the cipher block returned with the cipher block of `Gxxxxxxxxxxxxxxx` to get the last char of the flag.
+
+**7. Extending the idea, we apply this to all the characters**
+
+by adding the found char to the input :
+- `?Gxxxxxxxxxxxxxxx`
+- `??Gxxxxxxxxxxxxxx`
+- `???Gxxxxxxxxxxxxx`
+- etc.
+
+[exploit.py](./exploit.py)
+
 
